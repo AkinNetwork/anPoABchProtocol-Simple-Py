@@ -1,0 +1,15 @@
+classDiagram
+
+    class ServiceSession {
+      +serviceId : string
+      +participants : string[]
+      +requiredSigners : string[]
+      +signaturesCollected : Record<string, boolean>
+      +status : string
+    }
+
+    class DemoSessionState {
+      +sessions : Record<string, ServiceSession>
+    }
+
+    DemoSessionState "1" --> "0..*" ServiceSession : contains

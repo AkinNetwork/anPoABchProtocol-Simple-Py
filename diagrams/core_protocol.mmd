@@ -1,0 +1,56 @@
+classDiagram
+
+    class Signature {
+      +signer : string
+      +sig : string
+    }
+
+    class Transaction {
+      +id : string
+      +chainId : string
+      +app : string
+      +sender : string
+      +payload : any
+      +signatures : Signature[]
+      +timestamp : number
+    }
+
+    class Block {
+      +index : number
+      +timestamp : number
+      +prevHash : string
+      +validator : string
+      +transactions : Transaction[]
+      +blockHash : string
+      +validatorSignature : string
+    }
+
+    class AkinApp {
+      <<interface>>
+      +name : string
+      +validate(tx, state)
+      +apply(tx, state)
+    }
+
+    class AkinChain {
+      +chainId : string
+      +validators : string[]
+      +blocks : Block[]
+      +pending : Transaction[]
+      +apps : Record<string,AkinApp>
+      +appStates : Record<string,any>
+      +addTx(tx)
+      +proposeBlock(validator)
+      +isValidChain()
+    }
+
+    class DemoSessionApp {
+      +name : string
+      +validate(tx, state)
+      +apply(tx, state)
+    }
+
+    Signature --* Transaction : signatures
+    Transaction --* Block : transactions
+    Block --* AkinChain : blocks
+    DemoSessionApp ..|> AkinApp

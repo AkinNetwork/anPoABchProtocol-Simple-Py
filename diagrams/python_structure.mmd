@@ -1,0 +1,19 @@
+flowchart LR
+
+    subgraph Python Implementation
+        subgraph Core Layer
+            PCHAIN["chain.py\n(AkinChain, Block, Tx)"]
+            PHASH["hashing.py\n(hash_json)"]
+        end
+
+        subgraph Apps Layer
+            PAPP["demo_session.py\n(DemoSessionApp)"]
+        end
+
+        PCLI["cli_demo.py\n(Demo Driver)"]
+    end
+
+    PCLI --> PCHAIN
+    PCLI --> PAPP
+    PHASH --> PCHAIN
+    PAPP --> PCHAIN

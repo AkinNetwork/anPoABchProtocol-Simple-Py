@@ -1,0 +1,29 @@
+flowchart TD
+
+    A[Create Transaction] --> B[Submit to chain]
+
+    B --> C{Chain ID matches?}
+    C -- No --> CE[Reject: Wrong chain]
+    C -- Yes --> D{Known app?}
+    D -- No --> DE[Reject: Unknown app]
+    D -- Yes --> E[Validate via app]
+
+    E --> F{Valid?}
+    F -- No --> FE[Reject: App validation failed]
+    F -- Yes --> G[Add to pending]
+
+    G --> H[Propose block]
+
+    H --> I{Authorized validator?}
+    I -- No --> IE[Reject: Unauthorized validator]
+    I -- Yes --> J{Pending txs?}
+    J -- No --> JE[Reject: Nothing to commit]
+    J -- Yes --> K[Build block from pending]
+
+    K --> L[Verify prev hash]
+    L --> M{Matches?}
+    M -- No --> ME[Reject: Hash mismatch]
+    M -- Yes --> N[Append block]
+
+    N --> O[Apply tx state changes]
+    O --> DONE[Block committed]
